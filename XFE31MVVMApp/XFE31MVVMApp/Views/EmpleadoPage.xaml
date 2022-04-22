@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:XFE31MVVMApp.ViewModels"
+             xmlns:model="clr-namespace:XFE31MVVMApp.Models"
+             x:Class="XFE31MVVMApp.Views.EmpleadoPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AddEmpleadoCommand}" />
+    </ContentPage.ToolbarItems>
+    
+    <ContentPage.Content>
+        <StackLayout>
+            <RefreshView x:DataType="local:EmpleadoViewModel"
+                         Command="{Binding LoadEmpleadoCommand}"
+                         IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+                <CollectionView
+                    ItemsSource="{Binding EmpleadoInfos}"
+                    SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout x:DataType="model:EmpleadoInfo">
+
+                                <Grid Padding="5">
+                                    <Frame CornerRadius="10" HasShadow="True">
+                                        <StackLayout Orientation="Horizontal">
+                                            <!--<Image Grid.RowSpan="2" Source="{Binding ImageUrl}"></Image>-->
+                                            <StackLayout>
+                                                <Label Grid.Column="1" Text="{Binding Nombre}" FontAttributes="Bold"></Label>
+                                                <Label Grid.Column="1" Text="{Binding Apellido}" FontAttributes="Bold"></Label>
+                                                <Label Grid.Column="1" Text="{Binding Edad}" VerticalOptions="End"></Label>
+                                                <Label Grid.Column="1" Text="{Binding Direccion}" VerticalOptions="End"></Label>
+                                            </StackLayout>
+                                            <Label Grid.Row="1" Grid.Column="1" Text="{Binding Puesto}" VerticalOptions="End"></Label>
+                                            <StackLayout VerticalOptions="Center" HorizontalOptions="End">
+                                                <Image Source="edit.png" Grid.Column="3" WidthRequest="30" HeightRequest="30" VerticalOptions="End">
+                                                    <Image.GestureRecognizers>
+                                                        <TapGestureRecognizer NumberOfTapsRequired="1"
+                                                                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:EmpleadoViewModel}},
+                                                                                Path=EmpleadoTappedEdit}" CommandParameter="{Binding .}"/>
+                                                    </Image.GestureRecognizers>
+                                                </Image>
+                                            </StackLayout>
+
+                                            <StackLayout VerticalOptions="Center" HorizontalOptions="End">
+                                                <Image Source="remove.png" Grid.Column="3" WidthRequest="37" HeightRequest="37" VerticalOptions="End">
+                                                    <Image.GestureRecognizers>
+                                                        <TapGestureRecognizer NumberOfTapsRequired="1"
+                                                                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:EmpleadoViewModel}},
+                                                                                Path=EmpleadoTappedDelete}" CommandParameter="{Binding .}"/>
+                                                    </Image.GestureRecognizers>
+                                                </Image>
+                                            </StackLayout>
+
+                                        </StackLayout>
+                                    </Frame>
+                                </Grid>
+
+
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
